@@ -27,11 +27,13 @@ func main() {
 
 	app.Get("/products", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"data": "productos desde backend",
+			"data":    "productos desde backend",
+			"message": "Probando air 2",
+			"air":     "live",
 		})
 	})
 
-	db.ConnectDatabase()
+	db.GetCollection("my_database", "products")
 
 	app.Listen(":" + port)
 }

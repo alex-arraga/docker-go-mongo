@@ -6,7 +6,6 @@ import (
 	"log"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -16,11 +15,12 @@ type DatabaseCollections struct {
 	Products *mongo.Collection
 }
 
-func ConnectDatabase() error {
-	// Create client connection
+// Db connection
+func ConnectDatabase() (*mongo.Client, error) {
+	// Client connection
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
 	if err != nil {
-		return fmt.Errorf("failed to connect to db: %w", err)
+		log.Fatal(err)
 	}
 	defer func() {
 		if err = client.Disconnect(context.TODO()); err != nil {
@@ -36,17 +36,19 @@ func ConnectDatabase() error {
 		log.Fatal("Failed to connect to MongoDB: ", err)
 	}
 
-	// I create my database (if not exist) and the collection
-	coll := client.Database("my_database").Collection("products")
+	return client, nil
+}
 
-	// Insert bson data into collection created
-	newData, err := coll.InsertOne(context.TODO(), bson.D{{
-		Key: "name", Value: "laptop",
-	}})
+// Get collection
+func GetCollection(Dbname, collectionName string) (*mongo.Collection, error) {
+	// I create my database and collection (if not exist)
+	client, err := ConnectDatabase()
 	if err != nil {
-		return fmt.Errorf("failed to insert into db: %w", err)
+		log.Fatal(err)
 	}
+	coll := client.Database(Dbname).Collection(collectionName)
 
-	fmt.Println("Insert db success: ", newData.InsertedID)
-	return nil
+	fmt.Println("Db obtained: ", coll.Database().Name())
+	fmt.Println("Collection obtained: ", coll.Name())
+	return coll, nil
 }
