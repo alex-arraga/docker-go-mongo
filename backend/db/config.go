@@ -11,10 +11,6 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-type DatabaseCollections struct {
-	Products *mongo.Collection
-}
-
 // Db connection
 func ConnectDatabase() (*mongo.Client, error) {
 	// Client connection
@@ -22,15 +18,12 @@ func ConnectDatabase() (*mongo.Client, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer func() {
-		if err = client.Disconnect(context.TODO()); err != nil {
-			panic(err)
-		}
-	}()
 
-	// Check if the db is connect
+	// Max time to connect
 	ctx, cancel := context.WithTimeout(context.Background(), 2*time.Second)
 	defer cancel()
+
+	// Check if the db is connect
 	err = client.Ping(ctx, readpref.Primary())
 	if err != nil {
 		log.Fatal("Failed to connect to MongoDB: ", err)
@@ -40,15 +33,11 @@ func ConnectDatabase() (*mongo.Client, error) {
 }
 
 // Get collection
-func GetCollection(Dbname, collectionName string) (*mongo.Collection, error) {
+func GetCollection(client *mongo.Client, Dbname, collectionName string) (*mongo.Collection, error) {
 	// I create my database and collection (if not exist)
-	client, err := ConnectDatabase()
-	if err != nil {
-		log.Fatal(err)
-	}
 	coll := client.Database(Dbname).Collection(collectionName)
 
-	fmt.Println("Db obtained: ", coll.Database().Name())
-	fmt.Println("Collection obtained: ", coll.Name())
+	fmt.Printf("Db obtained: %v\n", coll.Database().Name())
+	fmt.Printf("Collection obtained: %v\n", coll.Name())
 	return coll, nil
 }
