@@ -35,13 +35,11 @@ func main() {
 	})
 
 	app.Get("/products", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{
-			"message": "Get request",
-		})
+		return handlers.GetProducts(c, client.Database("my_database").Collection("products"))
 	})
 
 	app.Post("/products", func(c *fiber.Ctx) error {
-		return handlers.InsertData(c, client.Database("my_database").Collection("products"))
+		return handlers.NewProduct(c, client.Database("my_database").Collection("products"))
 	})
 
 	fmt.Println("App in port 4000")
