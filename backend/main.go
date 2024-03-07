@@ -38,6 +38,10 @@ func main() {
 		return handlers.GetProducts(c, client.Database("my_database").Collection("products"))
 	})
 
+	app.Get("/products/:id", func(c *fiber.Ctx) error {
+		return handlers.GetProduct(c, client.Database("my_database").Collection("products"), c.Params("id"))
+	})
+
 	app.Post("/products", func(c *fiber.Ctx) error {
 		return handlers.NewProduct(c, client.Database("my_database").Collection("products"))
 	})
