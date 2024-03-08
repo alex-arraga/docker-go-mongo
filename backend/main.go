@@ -56,7 +56,7 @@ func main() {
 
 	// Delete all
 	app.Delete("/products", func(c *fiber.Ctx) error {
-		return handlers.DeleteProduct(c, client.Database("my_database").Collection("products"), c.Params("id"))
+		return handlers.DeleteProducts(c, client.Database("my_database").Collection("products"))
 	})
 
 	// Delete one

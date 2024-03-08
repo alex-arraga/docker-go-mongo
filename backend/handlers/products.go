@@ -33,7 +33,7 @@ func GetProducts(c *fiber.Ctx, coll *mongo.Collection) error {
 		fmt.Printf("List of products: %v\n", product)
 	}
 
-	return c.JSON(&fiber.Map{
+	return c.Status(200).JSON(&fiber.Map{
 		"products": allProducts,
 	})
 }
@@ -58,7 +58,7 @@ func GetProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
 		panic(err)
 	}
 
-	return c.JSON(&fiber.Map{
+	return c.Status(200).JSON(&fiber.Map{
 		"product": product,
 	})
 }
@@ -79,7 +79,7 @@ func NewProduct(c *fiber.Ctx, coll *mongo.Collection) error {
 	fmt.Printf("Inserted document with _id: %v\n", newData.InsertedID)
 
 	response, _ := json.Marshal(newData)
-	return c.Send(response)
+	return c.Status(200).Send(response)
 }
 
 // PUT
@@ -106,7 +106,18 @@ func UpdateProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
 	}
 
 	response, _ := json.Marshal(productUpdated)
-	return c.Send(response)
+	return c.Status(200).Send(response)
+}
+
+// DELETE all
+func DeleteProducts(c *fiber.Ctx, coll *mongo.Collection) error {
+	result, err := coll.DeleteMany(context.TODO(), bson.M{})
+	if err != nil {
+		panic(err)
+	}
+
+	response, _ := json.Marshal(result)
+	return c.Status(200).Send(response)
 }
 
 // DELETE one
@@ -123,5 +134,5 @@ func DeleteProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
 	}
 
 	response, _ := json.Marshal(result)
-	return c.Send(response)
+	return c.Status(200).Send(response)
 }
