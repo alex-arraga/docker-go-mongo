@@ -46,6 +46,10 @@ func main() {
 		return handlers.NewProduct(c, client.Database("my_database").Collection("products"))
 	})
 
+	app.Put("/products/:id", func(c *fiber.Ctx) error {
+		return handlers.UpdateProduct(c, client.Database("my_database").Collection("products"), c.Params("id"))
+	})
+
 	fmt.Println("App in port 4000")
 	app.Listen(":" + port)
 }

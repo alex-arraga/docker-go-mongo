@@ -81,3 +81,30 @@ func NewProduct(c *fiber.Ctx, coll *mongo.Collection) error {
 	response, _ := json.Marshal(newData)
 	return c.Send(response)
 }
+
+// PUT
+func UpdateProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
+	var productToUpdate db.Products
+
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(500).SendString("ID can't convert to primitive.ObjectID")
+	}
+	filter := bson.D{{Key: "_id", Value: objectId}}
+
+	json.Unmarshal([]byte(c.Body()), &productToUpdate)
+	update := bson.M{"$set": bson.M{
+		"name":  productToUpdate.Name,
+		"cost":  productToUpdate.Cost,
+		"brand": productToUpdate.Brand,
+	}}
+
+	productUpdated, err := coll.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		fmt.Printf("Error updating: %v\n", err)
+		return c.Status(500).Send([]byte(err.Error()))
+	}
+
+	response, _ := json.Marshal(productUpdated)
+	return c.Send(response)
+}
