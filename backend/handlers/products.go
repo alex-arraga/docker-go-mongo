@@ -108,3 +108,20 @@ func UpdateProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
 	response, _ := json.Marshal(productUpdated)
 	return c.Send(response)
 }
+
+// DELETE one
+func DeleteProduct(c *fiber.Ctx, coll *mongo.Collection, id string) error {
+	objectId, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return c.Status(500).SendString("ID can't convert to primitive.ObjectID")
+	}
+	filter := bson.D{{Key: "_id", Value: objectId}}
+
+	result, err := coll.DeleteOne(context.TODO(), filter)
+	if err != nil {
+		panic(err)
+	}
+
+	response, _ := json.Marshal(result)
+	return c.Send(response)
+}
