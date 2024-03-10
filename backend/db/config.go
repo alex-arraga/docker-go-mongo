@@ -14,7 +14,7 @@ import (
 // Db connection
 func ConnectDatabase() (*mongo.Client, error) {
 	// Client connection
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
+	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://db:27017"))
 	if err != nil {
 		log.Fatal(err)
 	}

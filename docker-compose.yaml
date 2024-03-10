@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  app:
+    container_name: go_app
+    image: first_go_mongo_app:1.0.0
+    build: 
+      context: ./backend
+      dockerfile: go.dockerfile
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+  
+  db:
+    container_name: mongo_db
+    image: mongo:7.0.6
+    ports:
+      - "27017:27017"
