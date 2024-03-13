@@ -1,12 +1,12 @@
-import ContainerPage from '@/components/ContainerPage'
-import ProductsJSON from '@/components/ProductsJSON'
+import { ContainerPage, ProductsJSON, CustomForm } from "@/components"
 
 function page(): JSX.Element {
   return (
     <ContainerPage>
-      <div className='rounded-lg w-full h-full p-2 bg-slate-700'>
+      <main className='rounded-lg w-full h-auto p-4 bg-slate-700'>
+        <CustomForm />
         <ProductsJSON />
-      </div>
+      </main>
     </ContainerPage>
   )
 }

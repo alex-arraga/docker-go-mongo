@@ -3,7 +3,7 @@ import React from 'react'
 
 function ContainerPage({ children }: ContainerPageProps) {
   return (
-    <section className='flex justify-center items-center p-4 w-screen h-screen overflow-x-hidden bg-slate-800'>
+    <section className='flex justify-center items-center p-4 min-w-screen min-h-screen overflow-x-hidden bg-slate-800'>
       {children}
     </section>
   )
