@@ -7,7 +7,7 @@ export function useGetAllProducts() {
   const [products, setProducts] = useState<ProductsApi | null>(null)
 
   useEffect((): void => {
-    fetch("http://localhost:4000/products", {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json"
@@ -21,7 +21,7 @@ export function useGetAllProducts() {
       setProducts(data as ProductsApi)
     })
       .catch(err => { console.log("🔴 Error Catch: " + err) })
-  }, [])
+  }, [products])
 
   return products?.products
 }
