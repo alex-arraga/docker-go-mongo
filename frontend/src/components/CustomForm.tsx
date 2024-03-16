@@ -1,21 +1,31 @@
 "use client"
 
-import { FormEvent, useEffect, useState } from "react"
+import { FormEvent, useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
 
 function CustomForm() {
+  const formRef = useRef<HTMLFormElement>(null)
+  const [response, setResponse] = useState<number | null>(null)
   const [method, setMethod] = useState('POST')
+
+  // Inputs data
   const [id, setId] = useState('')
   const [name, setName] = useState('')
   const [brand, setBrand] = useState('')
   const [cost, setCost] = useState(0)
 
+  // Toast
   useEffect(() => {
-    console.log("id", id)
-    console.log("brand", brand)
-    console.log("name", name)
-    console.log("cost", cost)
-  }, [id, name, cost, brand])
+    if (response === 200) {
+      toast.success("Operation success - " + method)
+      setResponse(null)
+    } else if (response === 500) {
+      toast.error("Internal server error")
+      setResponse(null)
+    }
+  }, [response])
 
+  // Submit form data based on the method (PUT, DELETE, POST)
   const handleSubmit = async (e: FormEvent, product: { id?: string, name?: string, cost?: number, brand?: string }) => {
     try {
       e.preventDefault()
@@ -29,10 +39,10 @@ function CustomForm() {
           }
         })
 
-        await response.json()
-        console.log("Operation success")
-        return "Operation success"
-
+        if (response.ok) {
+          setResponse(200)
+          formRef.current?.reset()
+        }
       } else if (method == "PUT") {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
           method: "PUT",
@@ -42,26 +52,26 @@ function CustomForm() {
           }
         })
 
-        await response.json()
-        console.log("Operation success")
-        return "Operation success"
-
+        if (response.ok) {
+          setResponse(200)
+          formRef.current?.reset()
+        }
       } else {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json"
           }
         })
 
-        await response.json()
-        console.log("Operation success")
-        return "Operation success"
+        setResponse(200)
+        formRef.current?.reset()
       }
 
     } catch (error) {
       console.log(error)
-      return "An error has ocurred"
+      setResponse(500)
+      formRef.current?.reset()
     }
   }
 
@@ -102,6 +112,7 @@ function CustomForm() {
 
       <div>
         <form
+          ref={formRef}
           className="relative flex flex-col justify-center h-full max-w-xs"
           onSubmit={(e) => handleSubmit(e, { id, name, cost, brand })}
         >
@@ -115,7 +126,7 @@ function CustomForm() {
                   <input type="text"
                     className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                     name="id"
-                    placeholder="a65sdiq12934"
+                    placeholder="65f36ac3368efb9b77b736d6"
                     onChange={(e) => setId(e.target.value)}
                   />
                 </div>
@@ -127,7 +138,8 @@ function CustomForm() {
                       <input type="text"
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="id"
-                        placeholder="a65sdiq12934"
+                        placeholder="65f36ac3368efb9b77b736d6"
+                        required
                         onChange={(e) => setId(e.target.value)}
                       />
                     </div>
@@ -138,6 +150,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="brand"
                         placeholder="Asus"
+                        required
                         onChange={(e) => setBrand(e.target.value)}
                       />
                     </div>
@@ -148,6 +161,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="name"
                         placeholder="Notebook VivoBook S"
+                        required
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
@@ -158,6 +172,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="cost"
                         placeholder="ARS $520.000"
+                        required
                         onChange={(e) => setCost(Number(e.target.value))}
                       />
                     </div>
@@ -171,6 +186,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="brand"
                         placeholder="Asus"
+                        required
                         onChange={(e) => setBrand(e.target.value)}
                       />
                     </div>
@@ -181,6 +197,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="name"
                         placeholder="Notebook VivoBook S"
+                        required
                         onChange={(e) => setName(e.target.value)}
                       />
                     </div>
@@ -191,6 +208,7 @@ function CustomForm() {
                         className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
                         name="cost"
                         placeholder="ARS $520.000"
+                        required
                         onChange={(e) => setCost(Number(e.target.value))}
                       />
                     </div>
