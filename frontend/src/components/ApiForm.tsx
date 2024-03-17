@@ -2,17 +2,21 @@
 
 import { FormEvent, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
+import { ConfirmToast } from "./CustomToast"
 
-function CustomForm() {
+function ApiForm() {
   const formRef = useRef<HTMLFormElement>(null)
   const [response, setResponse] = useState<number | null>(null)
   const [method, setMethod] = useState('POST')
 
+
   // Inputs data
-  const [id, setId] = useState('')
-  const [name, setName] = useState('')
-  const [brand, setBrand] = useState('')
-  const [cost, setCost] = useState(0)
+  const [id, setId] = useState<string | undefined>('')
+  const [name, setName] = useState<string | undefined>('')
+  const [brand, setBrand] = useState<string | undefined>('')
+  const [cost, setCost] = useState<number | undefined>(0)
+
+  useEffect(() => { console.log("ID", id) }, [id])
 
   // Toast
   useEffect(() => {
@@ -26,52 +30,49 @@ function CustomForm() {
   }, [response])
 
   // Submit form data based on the method (PUT, DELETE, POST)
-  const handleSubmit = async (e: FormEvent, product: { id?: string, name?: string, cost?: number, brand?: string }) => {
+  const handleSumbit = async (e: FormEvent, product: { id?: string, name?: string, cost?: number, brand?: string }) => {
     try {
       e.preventDefault()
 
+      let urlApi = `${process.env.NEXT_PUBLIC_API_URL}/products`
+      let options = {
+        method: method,
+        body: JSON.stringify(product),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }
+
+      const sendingFetch = async (send: boolean) => {
+        if (send) {
+          const response = await fetch(urlApi, options)
+          if (response.ok) {
+            setResponse(200)
+            formRef.current?.reset()
+          }
+        }
+      }
+
+      if (method == "PUT" || method == "DELETE" && id) {
+        urlApi += `/${id}`
+        sendingFetch(true)
+        setId(undefined)
+      }
+
+      if (method == "DELETE" && !id) {
+        const userConfirm = await ConfirmToast("¿Confirma que quiere eliminar todos los productos?")
+        if (userConfirm) {
+          sendingFetch(true)
+        }
+      }
+
       if (method == "POST") {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
-          method: "POST",
-          body: JSON.stringify(product),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-
-        if (response.ok) {
-          setResponse(200)
-          formRef.current?.reset()
-        }
-      } else if (method == "PUT") {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
-          method: "PUT",
-          body: JSON.stringify(product),
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-
-        if (response.ok) {
-          setResponse(200)
-          formRef.current?.reset()
-        }
-      } else {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json"
-          }
-        })
-
-        setResponse(200)
-        formRef.current?.reset()
+        sendingFetch(true)
       }
 
     } catch (error) {
       console.log(error)
       setResponse(500)
-      formRef.current?.reset()
     }
   }
 
@@ -90,31 +91,41 @@ function CustomForm() {
         {/* Buttons */}
         <div className="flex flex-1 gap-4 justify-center items-center mt-4">
           <button
-            onClick={() => setMethod("POST")}
+            onClick={() => {
+              setMethod("POST")
+              setId(undefined)
+            }}
             className={`rounded-lg p-2 w-full font-medium ${method == "POST" ? "bg-indigo-400" : "bg-slate-800"}`}
           >
             POST
           </button>
           <button
-            onClick={() => setMethod("PUT")}
+            onClick={() => {
+              setMethod("PUT")
+              setId(undefined)
+            }}
             className={`rounded-lg p-2 w-full font-medium ${method == "PUT" ? "bg-indigo-400" : "bg-slate-800"}`}
           >
             PUT
           </button>
           <button
-            onClick={() => setMethod("DELETE")}
+            onClick={() => {
+              setMethod("DELETE")
+              setId(undefined)
+            }}
             className={`rounded-lg p-2 w-full font-medium ${method == "DELETE" ? "bg-indigo-400" : "bg-slate-800"}`}
           >
             DELETE
           </button>
         </div>
-      </div>
+      </div >
 
+      {/* Form */}
       <div>
         <form
           ref={formRef}
           className="relative flex flex-col justify-center h-full max-w-xs"
-          onSubmit={(e) => handleSubmit(e, { id, name, cost, brand })}
+          onSubmit={(e) => handleSumbit(e, { id, name, cost, brand })}
         >
           <div className="my-4">
             {
@@ -225,8 +236,8 @@ function CustomForm() {
           </button>
         </form>
       </div>
-    </section>
+    </section >
   )
 }
 
-export default CustomForm
+export default ApiForm
