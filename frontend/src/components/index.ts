@@ -1,11 +1,13 @@
 import ContainerPage from "./ContainerPage";
 import ProductsJSON from "./ProductsJSON";
-import CustomForm from "./ApiForm";
+import ApiForm from "./ApiForm";
 import { ConfirmToast } from "./CustomToast";
+import ProductCard from "./ProductCard";
 
 export {
   ContainerPage,
   ProductsJSON,
-  CustomForm,
-  ConfirmToast
+  ApiForm,
+  ConfirmToast,
+  ProductCard
 }
