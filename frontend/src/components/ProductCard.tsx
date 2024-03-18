@@ -6,13 +6,13 @@ export function ProductCard() {
   const products = useGetAllProducts()
 
   return (
-    <section className='flex flex-1 justify-center items-center bg-red-100'>
-      <ul className='flex flex-1 max-w-2xl justify-center items-center gap-4 bg-slate-400 p-4 rounded-lg'>
+    <section>
+      <ul className='grid grid-cols-1 w-full gap-6 rounded-lg'>
         {products?.map((product) => (
-          <li className='bg-slate-800 rounded-lg w-full p-4' key={product.id}>
-            <p>ID: {product.id.slice(0, 12) + "..."}</p>
-            <h3>Product: {product.brand + " " + product.name}</h3>
-            <p className='font-medium'>Cost: <span className='text-cyan-200'>$ {product.cost.toLocaleString('ar-AR', { style: "currency", currency: "ARS" })}</span></p>
+          <li className='flex flex-col w-full bg-slate-800 shadow-md shadow-zinc-700 rounded-lg p-4 gap-2' key={product.id}>
+            <h3 className='text-xl font-medium'>{product.brand + " " + product.name}</h3>
+            <p className='text-cyan-100'>$ {product.cost.toLocaleString('ar-AR', { style: "currency", currency: "ARS" })}</p>
+            <p className='text-sm'>ID: {product.id}</p>
           </li>
         ))}
       </ul>
@@ -21,3 +21,5 @@ export function ProductCard() {
 }
 
 export default ProductCard
+
+// {product.id.slice(0, 12) + "..."}

@@ -77,7 +77,7 @@ function ApiForm() {
   }
 
   return (
-    <section className="relative flex flex-col justify-center h-full max-w-xs">
+    <section className="relative flex flex-col justify-center h-full w-full max-w-xs">
       <div>
         {/* Tittle */}
         <h2 className="flex justify-center text-xl">
