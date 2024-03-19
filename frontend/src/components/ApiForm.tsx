@@ -16,8 +16,6 @@ function ApiForm() {
   const [brand, setBrand] = useState<string | undefined>('')
   const [cost, setCost] = useState<number | undefined>(0)
 
-  useEffect(() => { console.log("ID", id) }, [id])
-
   // Toast
   useEffect(() => {
     if (response === 200) {
@@ -77,19 +75,19 @@ function ApiForm() {
   }
 
   return (
-    <section className="relative flex flex-col justify-center h-full w-full max-w-xs">
+    <section className="relative flex flex-col justify-center h-full w-full max-w-md bg-slate-950 border-4 border-blue-300 p-4 rounded-lg">
       <div>
         {/* Tittle */}
-        <h2 className="flex justify-center text-xl">
+        <h2 className="flex justify-center text-xl font-semibold mb-6">
           {
-            method == "POST" ? "Create new Product" :
-              method == "PUT" ? "Update product"
-                : "Delete product"
+            method == "POST" ? "New Product" :
+              method == "PUT" ? "Update Product"
+                : "Delete Product"
           }
         </h2>
 
         {/* Buttons */}
-        <div className="flex flex-1 gap-4 justify-center items-center mt-4">
+        <div className="flex flex-1 gap-4 justify-center items-center">
           <button
             onClick={() => {
               setMethod("POST")
@@ -124,7 +122,7 @@ function ApiForm() {
       <div>
         <form
           ref={formRef}
-          className="relative flex flex-col justify-center h-full max-w-xs"
+          className="relative flex flex-col justify-center min-h-56 max-h-none h-full w-full"
           onSubmit={(e) => handleSumbit(e, { id, name, cost, brand })}
         >
           <div className="my-4">

@@ -29,7 +29,7 @@ export function ConfirmToast(message: string) {
       {
         position: 'top-center',
         style: {
-          backgroundColor: '#313357',
+          backgroundColor: '#143678',
           borderColor: '#FFFFFF',
         },
       }
