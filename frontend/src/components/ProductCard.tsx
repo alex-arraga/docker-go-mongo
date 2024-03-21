@@ -7,7 +7,7 @@ export function ProductCard() {
 
   return (
     <section>
-      <ul className='relative grid grid-cols-2 w-full gap-6 rounded-lg'>
+      <ul className='relative grid xl:grid-cols-2 w-full gap-6 rounded-lg'>
         {
           products && products.length > 0 ?
             products?.map((product) => (
@@ -19,8 +19,8 @@ export function ProductCard() {
             ))
 
             :
-            <li className=''>
-              <p className='absolute top-0 font-medium w-full text-center'>There is no product</p>
+            <li>
+              <p className='absolute top-0 w-full text-sm md:text-base text-center'>There is no product</p>
             </li>
         }
       </ul>
