@@ -5,7 +5,7 @@ import Image from "next/image"
 function Presentation() {
   return (
     <aside className='flex flex-col justify-start items-center bg-gray-900 gap-4 p-4 w-full h-auto rounded-lg'>
-      <h1 className='text-xl font-bold text-blue-200'>Products API</h1>
+      <h1 className='text-xl font-medium text-blue-200'>Products API building with:</h1>
 
       <section className='flex w-full h-full gap-4'>
         <div className='flex flex-col items-center justify-start bg-gray-700 w-full h-full rounded-lg p-4'>
