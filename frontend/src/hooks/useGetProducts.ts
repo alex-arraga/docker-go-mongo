@@ -21,7 +21,7 @@ export function useGetAllProducts() {
       setProducts(data as ProductsApi)
     })
       .catch(err => { console.log("🔴 Error Catch: " + err) })
-  }, [products])
+  }, [])
 
   return products?.products
 }

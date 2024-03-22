@@ -9,7 +9,6 @@ function ApiForm() {
   const [response, setResponse] = useState<number | null>(null)
   const [method, setMethod] = useState('POST')
 
-
   // Inputs data
   const [id, setId] = useState<string | undefined>('')
   const [name, setName] = useState<string | undefined>('')
@@ -25,7 +24,7 @@ function ApiForm() {
       toast.error("Internal server error")
       setResponse(null)
     }
-  }, [response])
+  }, [response, method])
 
   // Submit form data based on the method (PUT, DELETE, POST)
   const handleSumbit = async (e: FormEvent, product: { id?: string, name?: string, cost?: number, brand?: string }) => {
