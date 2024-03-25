@@ -24,6 +24,9 @@ services:
       dockerfile: go.dockerfile
     ports:
       - "4000:4000"
+    environment:
+      - DATABASE_PASSWORD=M54NgfzJENBABz3z
+      - API_PORT=4000
     depends_on:
       - db
 

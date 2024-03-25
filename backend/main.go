@@ -17,7 +17,7 @@ func main() {
 	app.Use(cors.New())
 
 	// port
-	port := os.Getenv("PORT")
+	port := os.Getenv("API_PORT")
 	if port == "" {
 		port = "4000"
 	}
