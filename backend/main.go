@@ -65,5 +65,5 @@ func main() {
 	})
 
 	fmt.Println("App in port 4000")
-	app.Listen(":" + port)
+	app.Listen("0.0.0.0:" + port)
 }
