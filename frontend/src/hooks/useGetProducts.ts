@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 export function useGetAllProducts() {
   const [products, setProducts] = useState<ProductsApi | null>(null)
 
-  const apiURL = process.env.PUBLIC_API_URL || "http://localhost:4000"
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
   const options = {
     method: "GET",
     headers: {
