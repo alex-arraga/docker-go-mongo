@@ -11,7 +11,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://go_api:4000
+      - PUBLIC_API_URL=http://go_api:4000
     depends_on:
       - go_api
 
