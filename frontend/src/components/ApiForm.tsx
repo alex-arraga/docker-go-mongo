@@ -31,7 +31,7 @@ function ApiForm() {
     try {
       e.preventDefault()
 
-      let urlApi = process.env.NEXT_PUBLIC_API_URL
+      let urlApi = process.env.BACKEND_URL
       let options = {
         method: method,
         body: JSON.stringify(product),
