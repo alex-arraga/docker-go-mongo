@@ -31,7 +31,7 @@ function ApiForm() {
     try {
       e.preventDefault()
 
-      let urlApi = `${process.env.NEXT_PUBLIC_API_URL}/products`
+      let urlApi = process.env.NEXT_PUBLIC_API_URL
       let options = {
         method: method,
         body: JSON.stringify(product),
@@ -43,7 +43,7 @@ function ApiForm() {
 
       const sendingFetch = async (send: boolean) => {
         if (send) {
-          const response = await fetch(urlApi, options)
+          const response = await fetch(`${urlApi}/products`, options)
           if (response.ok) {
             setResponse(200)
             formRef.current?.reset()
