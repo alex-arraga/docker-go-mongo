@@ -6,7 +6,7 @@ import { useEffect, useState } from "react"
 export function useGetAllProducts() {
   const [products, setProducts] = useState<ProductsApi | null>(null)
 
-  const apiURL = "https://docker-go-mongo.onrender.com"
+  const apiURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000"
   const options = {
     method: "GET",
     credential: "include",

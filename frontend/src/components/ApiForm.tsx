@@ -31,10 +31,11 @@ function ApiForm() {
     try {
       e.preventDefault()
 
-      let urlApi = `https://docker-go-mongo.onrender.com/products`
+      let urlApi = `${process.env.NEXT_PUBLIC_API_URL}/products`
       let options = {
         method: method,
         body: JSON.stringify(product),
+        credential: "include",
         headers: {
           "Content-Type": "application/json"
         }
