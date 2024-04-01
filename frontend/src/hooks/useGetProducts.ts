@@ -25,7 +25,7 @@ export function useGetAllProducts() {
       setProducts(data as ProductsApi)
     })
       .catch(err => { console.log("🔴 Error Catch: " + err) })
-  }, [apiURL, options])
+  }, [apiURL])
 
   return products?.products
 }
