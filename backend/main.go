@@ -16,7 +16,7 @@ func main() {
 	app := fiber.New()
 	app.Use(cors.New(cors.Config{
 		AllowCredentials: true,
-		AllowOrigins:     "https://docker-go-mongo-frontend.onrender.com",
+		AllowOrigins:     "https://docker-go-mongo-frontend.onrender.com, http://localhost:3000",
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH",
 		AllowHeaders:     "Origin, Content-Type, Accept",
 	}))
