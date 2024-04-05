@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 import CustomButton from "./CustomButton"
-import { MainContainer } from "."
+import { CustomForm, MainContainer } from "."
 
 export function NewForm() {
   const [method, setMethod] = useState('POST')
@@ -12,7 +12,7 @@ export function NewForm() {
   return (
     <MainContainer>
       <div>
-        {/* Dynamics Tittles */}
+        {/* Dynamics Titles */}
         <section>
           <h1 className="text-base md:text-xl flex justify-center font-semibold mb-6">
             {
@@ -25,9 +25,14 @@ export function NewForm() {
 
         {/* Dynamics Buttons */}
         <section className="flex flex-1 gap-4 justify-center items-center text-sm md:text-base">
-          <CustomButton method="POST" handleClick={() => setMethod("POST")} />
-          <CustomButton method="PUT" handleClick={() => setMethod("PUT")} />
-          <CustomButton method="DELETE" handleClick={() => setMethod("DELETE")} />
+          <CustomButton method="POST" handleClick={() => setMethod("POST")} state={method} />
+          <CustomButton method="PUT" handleClick={() => setMethod("PUT")} state={method} />
+          <CustomButton method="DELETE" handleClick={() => setMethod("DELETE")} state={method} />
+        </section>
+
+        {/* Dynamic Form */}
+        <section>
+          <CustomForm method={method} />
         </section>
       </div>
     </MainContainer>

@@ -1,4 +1,4 @@
-import { MainContainer, ProductsJSON, ApiForm, ProductCard, Presentation } from "@/components"
+import { MainContainer, ProductsJSON, ProductCard, Presentation } from "@/components"
 import NewForm from "@/components/NewForm"
 
 function page(): JSX.Element {
@@ -7,7 +7,6 @@ function page(): JSX.Element {
       <main className='flex flex-col items-center justify-center rounded-lg w-full'>
         <section className="flex flex-col-reverse md:flex-row justify-around w-full h-full p-2 gap-4">
           <NewForm />
-          {/* <ApiForm /> */}
           <Presentation />
         </section>
 

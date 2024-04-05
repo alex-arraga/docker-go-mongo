@@ -1,4 +1,4 @@
-import { ContainerPageProps } from '@/types/HomePage'
+import { ContainerPageProps } from '@/types/components'
 import React from 'react'
 
 function MainContainer({ children, type }: ContainerPageProps) {

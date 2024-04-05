@@ -5,5 +5,10 @@ export type ContainerPageProps = {
 
 export type CustomButtonProps = {
   method: string,
-  handleClick: () => void
+  handleClick: () => void,
+  state: string
+}
+
+export type CustomFormProps = {
+  method: string
 }

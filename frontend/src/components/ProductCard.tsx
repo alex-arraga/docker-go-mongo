@@ -1,9 +1,9 @@
 "use client"
 
-import { useGetAllProducts } from '@/hooks/useGetProducts'
+import { useProductsContext } from "@/app/context/ProductsContext"
 
 export function ProductCard() {
-  const products = useGetAllProducts()
+  const { products } = useProductsContext()
 
   return (
     <section>

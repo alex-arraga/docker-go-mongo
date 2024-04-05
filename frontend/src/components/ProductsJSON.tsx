@@ -1,9 +1,9 @@
 "use client"
 
-import { useGetAllProducts } from '@/hooks/useGetProducts'
+import { useProductsContext } from "@/app/context/ProductsContext"
 
 function ProductsJSON() {
-  const products = useGetAllProducts()
+  const { products } = useProductsContext()
 
   return (
     <pre>
