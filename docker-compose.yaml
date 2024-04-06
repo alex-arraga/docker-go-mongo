@@ -25,7 +25,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DATABASE_PASSWORD=M54NgfzJENBABz3z
+      - DATABASE_URL=mongodb+srv://alex-arraga:M54NgfzJENBABz3z@db-products.yldmh5j.mongodb.net/?retryWrites=true&w=majority&appName=DB-Products
       - API_PORT=4000
     depends_on:
       - db

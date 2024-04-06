@@ -14,11 +14,14 @@ import (
 // Db connection
 func ConnectDatabase() (*mongo.Client, error) {
 	// Config client db connect
-	passwordDb := os.Getenv("DATABASE_PASSWORD")
-	connectionString := fmt.Sprintf("mongodb+srv://alex-arraga:%s@db-products.yldmh5j.mongodb.net/?retryWrites=true&w=majority&appName=DB-Products", passwordDb)
+	connectionDb := os.Getenv("DATABASE_URL")
+	println("DB Env GO " + connectionDb)
+	if connectionDb == "" {
+		connectionDb = "http://localhost:4000"
+	}
 
 	serverAPI := options.ServerAPI(options.ServerAPIVersion1)
-	opts := options.Client().ApplyURI(connectionString).SetServerAPIOptions(serverAPI)
+	opts := options.Client().ApplyURI(connectionDb).SetServerAPIOptions(serverAPI)
 
 	// Client connection
 	client, err := mongo.Connect(context.TODO(), opts)

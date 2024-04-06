@@ -35,7 +35,7 @@ export function CustomForm({ method }: CustomFormProps) {
           <input type="text"
             value={newProduct.name}
             className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
-            name="brand"
+            name="name"
             placeholder="Notebook A5 Pro"
             required
             onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
@@ -47,7 +47,7 @@ export function CustomForm({ method }: CustomFormProps) {
           <input type="number"
             value={newProduct.cost == 0 ? '' : newProduct.cost}
             className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
-            name="brand"
+            name="cost"
             placeholder="$20.000"
             required
             onChange={(e) => setNewProduct({ ...newProduct, cost: Number(e.target.value) })}
