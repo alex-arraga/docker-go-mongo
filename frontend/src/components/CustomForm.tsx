@@ -20,19 +20,28 @@ export function CustomForm({ method }: CustomFormProps) {
     handleDeleteOneProduct
   } = useProductsContext()
 
+  // If the user change the method, clear the values
+  useEffect(() => {
+    setFormatingCost('')
+    setNewProduct({ brand: '', name: '', cost: 0 })
+    setUpdateProduct({ id: '', brand: '', name: '', cost: 0 })
+    setDeleteProduct({ id: '' })
+  }, [method])
+
   // Func to add "." every 3 numbers
   const formatNumber = (num: number) => {
     if (!num) return ''
     return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
   }
 
-  // Format the number if newProduct.cost changing
+  // Format the number if the cost changing
   useEffect(() => {
-    if (!isNaN(newProduct.cost)) {
-      const costFormated = formatNumber(newProduct.cost);
+    if (!isNaN(newProduct.cost || updateProduct.cost)) {
+      const costFormated = formatNumber(newProduct.cost !== 0 ? newProduct.cost : updateProduct.cost);
       setFormatingCost(costFormated);
     }
-  }, [newProduct.cost])
+  }, [newProduct.cost, updateProduct.cost])
+
 
   return (
     method === "POST" ?
@@ -126,14 +135,22 @@ export function CustomForm({ method }: CustomFormProps) {
 
           <div className="my-2 gap-6">
             <label className="text-xs text-blue-200">Cost</label>
-            <input type="number"
-              value={updateProduct.cost === 0 ? '' : updateProduct.cost}
-              className="w-full bg-slate-500 p-2 block rounded-lg outline-2 outline-sky-600"
-              name="cost"
-              placeholder="$20.000"
-              required
-              onChange={(e) => setUpdateProduct({ ...updateProduct, cost: Number(e.target.value) })}
-            />
+            <div className='relative'>
+              <span className={`${formatingCost === '' ? "hidden" : "block absolute bottom-2 left-2"}`}>
+                $
+              </span>
+              <input type="text"
+                value={formatingCost}
+                className={`w-full bg-slate-500 ${formatingCost !== '' ? "p-2 pl-5" : "p-2"} block rounded-lg outline-2 outline-sky-600`}
+                name="cost"
+                placeholder="$20.000"
+                required
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\./g, '')
+                  setUpdateProduct({ ...updateProduct, cost: value === '' ? 0 : Number(value) })
+                }}
+              />
+            </div>
           </div>
 
           <button className="flex items-center justify-center w-full h-10 mt-6 bg-blue-400 hover:bg-blue-600 duration-200 rounded-md">
