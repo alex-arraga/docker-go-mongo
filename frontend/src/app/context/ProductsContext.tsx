@@ -100,10 +100,10 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 				setNewProduct({ name: '', brand: '', cost: 0 })
 				setClientResponse(200)
 			} else {
-				throw new Error("Response is not OK")
+				throw new Error("Internal server error")
 			}
 		} catch (error) {
-			console.log("Error creating new product", error)
+			console.log("Error creating new product: ", error)
 			setClientResponse(500)
 		}
 		finally {
@@ -120,17 +120,19 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 			const response = await fetch(`${apiURL}/products/${updateProduct.id}`, options("PUT", updateProduct))
 			if (response.ok) {
 				setClientResponse(200)
-			}
-			products.map((product) => {
-				if (product.id === updateProduct.id) {
-					return { ...product, name: updateProduct.name, brand: updateProduct.brand, cost: updateProduct.cost }
-				}
+				products.map((product) => {
+					if (product.id === updateProduct.id) {
+						return { ...product, name: updateProduct.name, brand: updateProduct.brand, cost: updateProduct.cost }
+					}
 
-				return product
-			})
-			setUpdateProduct({ id: '', name: '', brand: '', cost: 0 })
+					return product
+				})
+				setUpdateProduct({ id: '', name: '', brand: '', cost: 0 })
+			} else {
+				toast.error("The ID not exist")
+			}
 		} catch (error) {
-			console.log("Error updating product", error)
+			console.log("Error updating product: ", error)
 			setClientResponse(500)
 		}
 		finally {
@@ -147,11 +149,13 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 			const response = await fetch(`${apiURL}/products/${deleteProduct.id}`, options("DELETE"))
 			if (response.ok) {
 				setClientResponse(200)
+				products.filter((product) => product.id !== deleteProduct.id)
+				setDeleteProduct({ id: '' })
+			} else {
+				toast.error("The ID not exist")
 			}
-			products.filter((product) => product.id !== deleteProduct.id)
-			setDeleteProduct({ id: '' })
 		} catch (error) {
-			console.log("Error deleting one product", error)
+			console.log("Error deleting one product: ", error)
 			setClientResponse(500)
 		}
 		finally {
@@ -165,15 +169,19 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 		setIsFetching(true)
 
 		try {
-			const userConfirm = await ConfirmToast("¿Confirma que quiere eliminar todos los productos?")
-			if (userConfirm) {
-				const response = await fetch(`${apiURL}/products`, options("DELETE"))
-				if (response.ok) {
-					setClientResponse(200)
+			if (products && products.length > 0) {
+				const userConfirm = await ConfirmToast("¿Confirma que quiere eliminar todos los productos?")
+				if (userConfirm) {
+					const response = await fetch(`${apiURL}/products`, options("DELETE"))
+					if (response.ok) {
+						setClientResponse(200)
+					}
 				}
+			} else {
+				toast.message("Products not found")
 			}
 		} catch (error) {
-			console.log("Error deleting one product", error)
+			console.log("Error deleting products: ", error)
 			setClientResponse(500)
 		}
 		finally {
