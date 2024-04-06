@@ -17,18 +17,6 @@ export const useProductsContext = () => {
 
 export const ProductsProvider = ({ children }: ProductsProviderType) => {
 	const apiURL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
-
-	useEffect(() => {
-		console.log({
-			"ENV": process.env.NEXT_PUBLIC_BACKEND_URL,
-			"apiURL": apiURL,
-			"✅ products": products,
-			"✅ newProduct": newProduct,
-			"✅ updateProduct": updateProduct,
-			"✅ deleteProduct": deleteProduct
-		})
-	}, [])
-
 	const [isFetching, setIsFetching] = useState(false)
 	const [clientResponse, setClientResponse] = useState<number | null>(null)
 
@@ -38,6 +26,7 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 	const [updateProduct, setUpdateProduct] = useState({ id: '', name: '', brand: '', cost: 0 })
 	const [deleteProduct, setDeleteProduct] = useState({ id: '' })
 
+	// Options fetching
 	const options = (method: string, data?: {}): RequestInit | undefined => {
 		switch (method) {
 			case "GET":
@@ -99,7 +88,6 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 				})
 		}
 	}, [apiURL, isFetching])
-
 
 	// Create Product
 	const handleCreateProduct = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -195,7 +183,6 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 
 	// Toast response
 	useEffect(() => {
-		console.log("Client response:", clientResponse)
 		if (clientResponse === 200) {
 			toast.success("Operation success")
 			setClientResponse(null)

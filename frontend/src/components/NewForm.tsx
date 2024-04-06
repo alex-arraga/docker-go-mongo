@@ -1,13 +1,11 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import CustomButton from "./CustomButton"
 import { CustomForm, MainContainer } from "."
 
 export function NewForm() {
   const [method, setMethod] = useState('POST')
-
-  useEffect(() => { console.log(method) }, [method])
 
   return (
     <MainContainer>
