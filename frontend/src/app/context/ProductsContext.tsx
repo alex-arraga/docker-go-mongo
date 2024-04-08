@@ -26,6 +26,11 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 	const [updateProduct, setUpdateProduct] = useState({ id: '', name: '', brand: '', cost: 0 })
 	const [deleteProduct, setDeleteProduct] = useState({ id: '' })
 
+	// TEMP
+	useEffect(() => {
+		console.log("ENV", process.env.NEXT_PUBLIC_BACKEND_URL)
+	}, [process.env.NEXT_PUBLIC_BACKEND_URL])
+
 	// Options fetching
 	const options = (method: string, data?: {}): RequestInit | undefined => {
 		switch (method) {
