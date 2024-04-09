@@ -16,7 +16,7 @@ export const useProductsContext = () => {
 }
 
 export const ProductsProvider = ({ children }: ProductsProviderType) => {
-	const apiURL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
+	const apiURL = process.env.NEXT_PUBLIC_BACKEND_URL || "https://docker-go-mongo.onrender.com" || "http://localhost:4000"
 	const [isFetching, setIsFetching] = useState(false)
 	const [clientResponse, setClientResponse] = useState<number | null>(null)
 
@@ -25,11 +25,6 @@ export const ProductsProvider = ({ children }: ProductsProviderType) => {
 	const [newProduct, setNewProduct] = useState({ name: '', brand: '', cost: 0 })
 	const [updateProduct, setUpdateProduct] = useState({ id: '', name: '', brand: '', cost: 0 })
 	const [deleteProduct, setDeleteProduct] = useState({ id: '' })
-
-	// TEMP
-	useEffect(() => {
-		console.log("ENV", process.env.NEXT_PUBLIC_BACKEND_URL)
-	}, [process.env.NEXT_PUBLIC_BACKEND_URL])
 
 	// Options fetching
 	const options = (method: string, data?: {}): RequestInit | undefined => {
