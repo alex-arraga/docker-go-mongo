@@ -16,7 +16,7 @@ export const useProductsContext = () => {
 }
 
 export const ProductsProvider = ({ children }: ProductsProviderType) => {
-	const apiURL = "https://docker-go-mongo.onrender.com" || "http://localhost:4000"
+	const apiURL = "https://docker-go-mongo.onrender.com"
 	const [isFetching, setIsFetching] = useState(false)
 	const [clientResponse, setClientResponse] = useState<number | null>(null)
 
