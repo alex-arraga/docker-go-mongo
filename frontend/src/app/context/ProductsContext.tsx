@@ -16,11 +16,9 @@ export const useProductsContext = () => {
 }
 
 export const ProductsProvider = ({ children }: ProductsProviderType) => {
-	const apiURL = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"
+	const apiURL = "https://docker-go-mongo.onrender.com" || "http://localhost:4000"
 	const [isFetching, setIsFetching] = useState(false)
 	const [clientResponse, setClientResponse] = useState<number | null>(null)
-
-	useEffect(() => { console.log("ENV: ", apiURL) }, [apiURL])
 
 	// Form data
 	const [products, setProducts] = useState<ProductsApi[]>([])
