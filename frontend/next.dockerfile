@@ -58,6 +58,8 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 ARG BACKEND_URL
 
+RUN echo "😁 ARG BACKEND_URL is set to: $BACKEND_URL"
+
 ENV NEXT_PUBLIC_BACKEND_URL=$BACKEND_URL
 # ENV NEXT_PUBLIC_BACKEND_URL="https://docker-go-mongo.onrender.com"
 
