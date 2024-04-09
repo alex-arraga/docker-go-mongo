@@ -56,7 +56,10 @@ RUN chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-ENV NEXT_PUBLIC_BACKEND_URL="https://docker-go-mongo.onrender.com"
+ARG BACKEND_URL
+
+ENV NEXT_PUBLIC_BACKEND_URL=$BACKEND_URL
+# ENV NEXT_PUBLIC_BACKEND_URL="https://docker-go-mongo.onrender.com"
 
 USER nextjs
 
